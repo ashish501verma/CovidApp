@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get COVID Cases by City</title>
+<style>
+/* CSS styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Get COVID Cases by City</h2>
+    
+    <div class="form-group">
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" placeholder="Enter state name">
+        <label for="city">District:</label>
+        <input type="text" id="city" name="city" placeholder="Enter district name">
+
+    </div>
+    <button class="button" id="getCasesBtn">Get COVID Cases</button>
+    <div id="result"></div>
+</div>
+
+<script>
+// JavaScript code
+document.getElementById('getCasesBtn').addEventListener('click', function() {
+        const state = document.getElementById('state').value;
+        const city = document.getElementById('city').value;
+
+    // Make API call to the Spring Boot endpoint
+    fetch(`http://localhost:8080/covid/citywise/${state}/${city}`)
+        .then(response => response.text())
+        .then(data => {
+            // Display the response in the UI
+            document.getElementById('result').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while fetching data from the server.');
+        });
+});
+</script>
+
+</body>
+</html>
